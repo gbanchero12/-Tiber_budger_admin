@@ -7,7 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Grid, withStyles, Link, Box } from '@material-ui/core';
+import { Grid, withStyles, Link, Box, Divider } from '@material-ui/core';
 import HandleChange from '../../../Functions/Functions';
 import TextsmsIcon from '@material-ui/icons/Textsms';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
@@ -16,6 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import jpgIcon from './../../../dummy/uploadIconJPG.JPG'
 import Image from 'react-image-resizer';
+import imageUpload from './../../../dummy/Upload.JPG'
 
 
 export default function DialogPhoto(props) {
@@ -150,32 +151,34 @@ function Basic(props) {
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
     const files = acceptedFiles.map(file => (
-        <div>
-            <img src={jpgIcon}
+        <div >
+            < img src={jpgIcon}
                 style={{
-                    height: 30,
-                    width: 30,
-                    marginTop: 10,
-                    paddingTop: 5,
-                    paddingRight: 5,
-                    alignContent: "flex-end"
+                    height: 40,
+                    width: 40,
+                    marginLeft: 50,
+                    paddingTop: 7,
+                    paddingRight: 7,
                 }}
                 alt="Logo file upload type"
 
             />
-            {file.path} - {file.size} bytes
-        </div>
+          
+                <span style={{marginBottom:50}}>{file.path} - {file.size} bytes</span>
+              
+        </div >
     ));
 
     return (
-        <Grid container alignContent="flex-end" justify="flex-start">
+        <Grid container alignContent="flex-end" justify="flex-start" style={{ marginLeft: 8 }}>
             <Grid {...getRootProps({ className: 'dropzone' })} >
                 <input {...getInputProps()} />
-                <p>Drag and drop files or</p><br></br>
+                <Image style={{ marginLeft: 30 }} img src={imageUpload} height={80} width={80} />
+                <p style={{ fontSize:18 }}>Drag and Drop files <br></br></p> <Grid item style={{ marginLeft: 56,fontSize:20 }}>or</Grid><br></br>
                 <UploadButtons />
             </Grid>
 
-          
+
             <ul>{files}</ul>
         </Grid >
     );
@@ -197,7 +200,7 @@ function UploadButtons() {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} style={{marginLeft: 12}}>
 
             <Button variant="contained" color="primary" component="span">
                 Browse
