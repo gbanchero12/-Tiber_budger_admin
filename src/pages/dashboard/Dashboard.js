@@ -25,6 +25,7 @@ import Image from 'react-image-resizer';
 import tiberLogo from './../../dummy/tiberLogo.JPG'
 import SimpleMenu from './Components/Menu';
 import Rooms from './Rooms';
+import  './styles.css'
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -132,6 +133,7 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 260 ,
   },
+  
 }));
 
 export default function Dashboard() {
@@ -221,6 +223,7 @@ export default function Dashboard() {
                 <Rooms />
          
             </Grid>
+            <Grid item xs={1}>{/*Empty space for image*/}</Grid>
           </Grid>
           <Box pt={4}>
             <Copyright />
