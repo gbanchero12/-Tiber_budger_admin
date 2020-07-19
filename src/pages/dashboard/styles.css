@@ -1,5 +1,9 @@
+.MuiOutlinedInput-inputMarginDense {
+    padding-top: 10.5px;
+    padding-bottom: 10.5px;
+    font-size: 10px !important;
+}
 .MuiGrid-spacing-xs-3 > .MuiGrid-item {
     padding: 12px;
     height: 350px;
 }
-
