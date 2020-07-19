@@ -23,9 +23,7 @@ export default function DialogAddRoom(props) {
     const [maxWidth] = React.useState('xs');
     const [open, setOpen] = React.useState(false);
 
-    const [window, setAddress] = React.useState('');
-    const [floors, setCity] = React.useState('');
-    const [walls, setState] = React.useState('');
+    const [place, setPlaceName] = React.useState('');
 
     const [stored, setStored] = React.useState(false);
 
@@ -42,10 +40,9 @@ export default function DialogAddRoom(props) {
     function onClickEdit() {
 
         let data = {
-            window,
-            floors,
-            walls
+            place
         }
+        console.log(data);
         fillRows();
         setStored(true);
 
@@ -56,21 +53,7 @@ export default function DialogAddRoom(props) {
     function handleChange(event) {
         const target = event.target;
         const value = target.value;
-        const name = target.name;
-        switch (name) {
-            case "window":
-                setAddress(value)
-                break;
-            case "floors":
-                setCity(value)
-                break;
-            case "walls":
-                setState(value)
-                break;
-
-            default:
-                break;
-        }
+        setPlaceName(value);
     }
 
 
@@ -108,7 +91,7 @@ export default function DialogAddRoom(props) {
                             <ToggleButtonSizes /></Grid>
                         <Grid item xs={12}> 
                         <p>Enter Room Name</p>
-                        <TextField type="outlined" id="place" name="place" type="text"> </TextField></Grid>
+                        <TextField variant="filled" fullWidth label="Enter Room Name" id="place" name="place" type="text" onChange={handleChange}> </TextField></Grid>
                     </Grid>
 
                 </DialogContent>
