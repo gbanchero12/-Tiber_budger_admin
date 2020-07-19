@@ -14,6 +14,7 @@ import BlurOnIcon from '@material-ui/icons/BlurOn';
 import DialogRoomsBubble from './Dialogs/DialogRoomsBubble';
 import DialogPhoto from './Dialogs/DialogPhoto';
 import DialogNoteRooms from './Dialogs/DialogNoteRooms';
+import DialogAddRoom from './Dialogs/DialogAddRoom';
 
 
 
@@ -144,7 +145,7 @@ class Rooms extends React.Component {
         </Table>
 
         </div>
-        <Link color="primary" href="#" onClick={fillRows}>+ Add room</Link>
+        <DialogAddRoom fillRows={fillRows}/>
 
 
 

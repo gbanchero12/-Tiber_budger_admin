@@ -10,15 +10,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Grid, withStyles, Link } from '@material-ui/core';
 import HandleChange from '../../../Functions/Functions';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-export default function DialogMenu(props) {
+import ToggleButtonSizes from '../Components/ToggleButtons';
+export default function DialogAddRoom(props) {
 
     const {
         classes,
-        storageData
+        storageData,
+        fillRows
     } = props;
 
     const [fullWidth] = React.useState(true);
-    const [maxWidth] = React.useState('sm');
+    const [maxWidth] = React.useState('xs');
     const [open, setOpen] = React.useState(false);
 
     const [window, setAddress] = React.useState('');
@@ -44,7 +46,7 @@ export default function DialogMenu(props) {
             floors,
             walls
         }
-
+        fillRows();
         setStored(true);
 
         //storageData(data);
@@ -89,21 +91,7 @@ export default function DialogMenu(props) {
     return (
         <span>
 
-            {stored ?
-                <div>
-                    <Link href="#" >
-
-                        <AssignmentIcon style={{ marginLeft: "-40px", display: "block", color: "#049ce4" }} fontSize="small" onClick={handleClickOpenPopper} />
-                    </Link>
-                </div>
-                :
-                <div>
-                    <Link href="#" >
-
-                        <AssignmentIcon style={{ marginLeft: "-40px", display: "block", color: "#000000" }} fontSize="small" onClick={handleClickOpenPopper} fontSize="small" />
-
-                    </Link>
-                </div>}
+            <Link color="primary" href="#" onClick={handleClickOpenPopper}>+ Add room</Link>
 
             <Dialog
                 fullWidth={fullWidth}
@@ -114,48 +102,13 @@ export default function DialogMenu(props) {
                 aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title"></DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2} justify="flex-end" alignItems="center">
-                        <Grid item xs={4}>
-                            <TextField
-                                id="window"
-                                label="Window Condition"
-                                margin="dense"
-                                variant="outlined"
-                                name="window"
-                                onChange={handleChange}
-                                InputProps={{
-                                    readOnly: false
-                                }}
-                            />
-                        </Grid>
-
-                        <Grid item xs={4}>
-                            <TextField
-                                id="floors"
-                                label="Floors"
-                                margin="dense"
-                                variant="outlined"
-                                name="floors"
-                                onChange={handleChange}
-                                InputProps={{
-                                    readOnly: false
-                                }}
-                            />
-                        </Grid>
-
-                        <Grid item xs={4}>
-                            <TextField
-                                id="walls"
-                                label="Walls"
-                                margin="dense"
-                                variant="outlined"
-                                name="walls"
-                                onChange={handleChange}
-                                InputProps={{
-                                    readOnly: false
-                                }}
-                            />
-                        </Grid>
+                    <Grid container spacing={2} justify="flex-end" alignItems="flex-end">
+                        <Grid item xs={12}>
+                        <p>Select Room Type</p> 
+                            <ToggleButtonSizes /></Grid>
+                        <Grid item xs={12}> 
+                        <p>Enter Room Name</p>
+                        <TextField type="outlined" id="place" name="place" type="text"> </TextField></Grid>
                     </Grid>
 
                 </DialogContent>
