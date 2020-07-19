@@ -7,13 +7,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import RadioButtonCheckedTwoToneIcon from '@material-ui/icons/RadioButtonCheckedTwoTone';
-import { Box, Link } from '@material-ui/core';
+import { Box, Link, Hidden, Grid } from '@material-ui/core';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import BlurOnIcon from '@material-ui/icons/BlurOn';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import DialogRoomsBubble from './Dialogs/DialogRoomsBubble';
 import DialogPhoto from './Dialogs/DialogPhoto';
+import DialogNoteRooms from './Dialogs/DialogNoteRooms';
 
 // Generate Order Data
 function createData(id, icon, firstColumn, l, w, h, lxH, icons) {
@@ -21,22 +21,20 @@ function createData(id, icon, firstColumn, l, w, h, lxH, icons) {
 }
 
 const rows = [
-  createData(0, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000" }} fontSize="small" />,
+  createData(0, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight:-30 }} fontSize="small" />,
     'Living Room', inline("12"), inline("14"), inline("7"), inline("168"), displayIcons()),
-  createData(1, <RadioButtonCheckedTwoToneIcon style={{ fill: "#f5b201" }} fontSize="small" />,
+  createData(1, <RadioButtonCheckedTwoToneIcon style={{ fill: "#f5b201" , marginRight:-30}} fontSize="small" />,
     'Kitchen', inline("12"), inline("14"), inline("7"), inline("168"), displayIcons()),
-  createData(2, <FiberManualRecordIcon style={{ fill: "#129e00" }} fontSize="small" />,
+  createData(2, <FiberManualRecordIcon style={{ fill: "#129e00", marginRight:-30 }} fontSize="small" />,
     'Bedroom 1', inline("12"), inline("14"), inline("7"), inline("168"), displayIcons()),
-  createData(3, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000" }} fontSize="small" />,
+  createData(3, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight:-30 }} fontSize="small" />,
     'Bedroom 2', inline(" - "), inline(" - "), inline(" - "), inline(" - "), displayIcons()),
-  createData(3, <Link color="primary" href="#" onClick={preventDefault}>+ Add room</Link>,
-    "", "", "", "", "", ""),
 ];
 
 function inline(text) {
   return (
     <div>
-      <Box component="div" style={{width: "30px", fontSize:"10px"}} p={0.5} m={-1} border={1} borderColor="grey.500">
+      <Box component="div" style={{ width: "30px", fontSize: "10px" }} p={0.5} m={-1} border={1} borderColor="grey.500">
         {text}
       </Box>
 
@@ -46,10 +44,15 @@ function inline(text) {
 
 function displayIcons() {
   return (
+
     <div>
-      <DialogRoomsBubble/>
-      <DialogPhoto/>
-      <AssignmentIcon fontSize="small"/>
+      <Grid container justify="flex-end" style={{width:60}} alignItems="flex-end">
+        
+        <Grid item xs={4}><DialogNoteRooms /></Grid>
+        <Grid item xs={4}><DialogPhoto /></Grid>
+        <Grid item xs={4}><DialogRoomsBubble /></Grid>
+        
+      </Grid>
     </div>
   );
 }
@@ -104,6 +107,11 @@ export default function Rooms() {
               <TableCell align="right" className={classes.tableCell}>{row.icons}</TableCell>
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell className={classes.tableCell}>
+            <Link color="primary" href="#" onClick={preventDefault}>+ Add room</Link>
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
 

@@ -9,8 +9,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Grid, withStyles, Link } from '@material-ui/core';
 import HandleChange from '../../../Functions/Functions';
-import TextsmsIcon from '@material-ui/icons/Textsms';
-
+import AssignmentIcon from '@material-ui/icons/Assignment';
 export default function DialogMenu(props) {
 
     const {
@@ -88,18 +87,21 @@ export default function DialogMenu(props) {
     }, [open]);
 
     return (
-        <div>
+        <span>
 
             {stored ?
                 <div>
                     <Link href="#" >
-                        <TextsmsIcon style={{ marginLeft: "-40px", display: "block", color:"#049ce4" }} fontSize="small" onClick={handleClickOpenPopper} />
+
+                        <AssignmentIcon style={{ marginLeft: "-40px", display: "block", color: "#049ce4" }} fontSize="small" onClick={handleClickOpenPopper} />
                     </Link>
                 </div>
                 :
                 <div>
                     <Link href="#" >
-                        <TextsmsIcon style={{ marginLeft: "-40px", display: "block", color:"#000000" }} fontSize="small" onClick={handleClickOpenPopper} />
+
+                        <AssignmentIcon style={{ marginLeft: "-40px", display: "block", color: "#000000" }} fontSize="small" onClick={handleClickOpenPopper} fontSize="small" />
+
                     </Link>
                 </div>}
 
@@ -166,7 +168,7 @@ export default function DialogMenu(props) {
                     </Button>)}
                 </DialogActions>
             </Dialog>
-        </div>
+        </span>
     );
 
 }
