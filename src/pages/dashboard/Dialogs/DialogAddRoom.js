@@ -48,7 +48,7 @@ export default function DialogAddRoom(props) {
         fillRows(data, id);
         setStored(true);
 
-        displayIcons();
+        displayIcons(data.id);
         handleClosePopper();
     }
 

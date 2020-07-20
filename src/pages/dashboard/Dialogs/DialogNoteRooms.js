@@ -50,10 +50,11 @@ export default function DialogNoteRooms(props) {
             floors,
             walls
         }
-        if (note !== '')
+        if (note !== '') {
             setStored(true);
+            sendStateNote(true, id);
+        }
 
-            sendStateNote(stored, id);
         handleClosePopper();
     }
 

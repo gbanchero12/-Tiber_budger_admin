@@ -57,11 +57,11 @@ export default function DialogPhoto(props) {
             walls
         }
 
-        if (amountOfFiles > 0)
+        if (amountOfFiles > 0) {
             setStored(true);
+            sendStatePhoto(true, id);
+        }
 
-        sendStatePhoto(stored, id);
-        checkStateForColor(id);
         handleClosePopper();
     }
 

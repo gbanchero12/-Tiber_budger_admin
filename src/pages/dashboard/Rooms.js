@@ -48,9 +48,9 @@ const icons = (id) => {
     <div>
       <Grid container justify="flex-end" style={{ width: 60, marginLeft: 17 }} alignItems="flex-end">
 
-        <Grid item xs={4} ><DialogNoteRooms  /></Grid>
-        <Grid item xs={4}><DialogPhoto  /></Grid>
-        <Grid item xs={4}><DialogRoomsBubble  /></Grid>
+      <Grid item xs={4} ><DialogNoteRooms  /></Grid>
+            <Grid item xs={4}><DialogPhoto  /></Grid>
+            <Grid item xs={4}><DialogRoomsBubble   /></Grid>
 
       </Grid>
     </div>
@@ -82,17 +82,17 @@ class Rooms extends React.Component {
     super(props);
     this.state = {
       rows: [
-        createData(0, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
+       /* createData(0, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
           <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Living Room</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(0)),
         createData(1, <RadioButtonCheckedTwoToneIcon style={{ fill: "#f5b201", marginRight: -30 }} fontSize="small" />,
           <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Kitchen</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(1)),
         createData(2, <FiberManualRecordIcon style={{ fill: "#129e00", marginRight: -30 }} fontSize="small" />,
           <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 1</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(2)),
         createData(3, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
-          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 2</span>, inline(" - "), inline(" - "), inline(" - "), inline(" - "), icons(3)),
+          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 2</span>, inline(" - "), inline(" - "), inline(" - "), inline(" - "), icons(3)),*/
       ],
       inicialState: true,
-      iconColor: ["red"]
+      pointerState: [/*{ note: false, photo: false, bubble: false }, { note: false, photo: false, bubble: false }, { note: false, photo: false, bubble: false }, { note: false, photo: false, bubble: false }*/]
     };
 
 
@@ -107,31 +107,79 @@ class Rooms extends React.Component {
     const { classes } = this.props;
 
     const sendStateNote = (state, id) => {
-      let iconColorStored = this.state.iconColor;
-      console.log(id);
-      //this.state.rows[0].icon.props.style.fill = "yellow";
+      if (!state)
+        return;
+
+      if (!this.state.pointerState[id].note) {
+        let new_pointer_state = this.state.pointerState;
+        new_pointer_state[id].note = true;
+        this.setState({ pointerState: new_pointer_state });
+
+        let rows_ = this.state.rows;
+        rows_[id].icon = <RadioButtonCheckedTwoToneIcon style={{ fill: "#f5b201", marginRight: -30 }} fontSize="small" />;
+        this.setState({ rows: rows_ })
+      }
+
+      if (this.state.rows[id].icon.props.style.fill === "#f5b201" && this.state.pointerState[id].photo && this.state.pointerState[id].bubble) {
+        let rows_ = this.state.rows;
+        rows_[id].icon = <FiberManualRecordIcon style={{ fill: "#129e00", marginRight: -30 }} fontSize="small" />;
+
+        this.setState({ rows: rows_ })
+
+      }
     }
 
     const sendStatePhoto = (state, id) => {
-      let iconColorStored = this.state.iconColor;
-      if (iconColorStored[id - 1] === undefined || iconColorStored[id - 1].color === "red") {
-        iconColorStored[id - 1] = "yellow";
-        this.setState({ iconColor: iconColorStored })
+
+      if (!state)
+        return;
+
+      if (!this.state.pointerState[id].photo) {
+        let new_pointer_state = this.state.pointerState;
+        new_pointer_state[id].photo = true;
+        this.setState({ pointerState: new_pointer_state });
+
+        let rows_ = this.state.rows;
+        rows_[id].icon = <RadioButtonCheckedTwoToneIcon style={{ fill: "#f5b201", marginRight: -30 }} fontSize="small" />;
+        this.setState({ rows: rows_ })
       }
-      console.log(this.state)
+
+      if (this.state.rows[id].icon.props.style.fill === "#f5b201" && this.state.pointerState[id].note && this.state.pointerState[id].bubble) {
+        let rows_ = this.state.rows;
+        rows_[id].icon = <FiberManualRecordIcon style={{ fill: "#129e00", marginRight: -30 }} fontSize="small" />;
+
+        this.setState({ rows: rows_ })
+
+      }
+
     }
 
+
     const sendStateBubble = (state, id) => {
-      let iconColorStored = this.state.iconColor;
-      if (iconColorStored[id - 1] === undefined || iconColorStored[id - 1].color === "red") {
-        iconColorStored[id - 1] = "yellow";
-        this.setState({ iconColor: iconColorStored })
+      if (!state)
+        return;
+
+      if (!this.state.pointerState[id].bubble) {
+        let new_pointer_state = this.state.pointerState;
+        new_pointer_state[id].note = true;
+        this.setState({ pointerState: new_pointer_state });
+
+        let rows_ = this.state.rows;
+        rows_[id].icon = <RadioButtonCheckedTwoToneIcon style={{ fill: "#f5b201", marginRight: -30 }} fontSize="small" />;
+        this.setState({ rows: rows_ })
       }
-      console.log(this.state)
+
+      if (this.state.rows[id].icon.props.style.fill === "#f5b201" && this.state.pointerState[id].photo && this.state.pointerState[id].note) {
+        let rows_ = this.state.rows;
+        rows_[id].icon = <FiberManualRecordIcon style={{ fill: "#129e00", marginRight: -30 }} fontSize="small" />;
+
+        this.setState({ rows: rows_ })
+
+      }
     }
 
     const checkStateForColor = (id = 0, sendStateBubble, sendStatePhoto, sendStateNote) => {
-
+      //not implemented
     }
 
     const icons = (id) => {
@@ -162,17 +210,21 @@ class Rooms extends React.Component {
 
 
     const fillRows = (data, id) => {
-      console.log(id)
+
       let newRow = createData(id, <RadioButtonCheckedTwoToneIcon className={data.place} style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
-        <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >{data.place}</span>, inline("-"), inline("-"), inline("-"), inline("-"), displayIcons(id));
+        <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >{data.place}</span>, inline("-"), inline("-"), inline("-"), inline("-"), displayIcons(id, "fillRowMethod"));
       let rows_ = this.state.rows;
       rows_.push(newRow);
       this.setState({ rows: rows_ });
+      let actual = this.state.pointerState;
+      console.log(actual);
+      actual.push({ note: false, photo: false, bubble: false });
+      this.setState({ pointerState: actual });
+
     }
 
     if (this.state.inicialState) {
       {
-        displayIcons();
         this.setState({ inicialState: false })
       }
     }
@@ -219,7 +271,7 @@ class Rooms extends React.Component {
 
 
 
-      </React.Fragment>
+      </React.Fragment >
     );
   };
 }
