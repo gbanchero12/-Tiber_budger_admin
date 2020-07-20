@@ -23,7 +23,10 @@ export default function DialogPhoto(props) {
 
     const {
         classes,
-        storageData
+        storageData,
+        sendStatePhoto,
+        checkStateForColor,
+        id
     } = props;
 
     const [fullWidth] = React.useState(true);
@@ -35,7 +38,7 @@ export default function DialogPhoto(props) {
     const [walls, setState] = React.useState('');
 
     const [stored, setStored] = React.useState(false);
-
+    const [amountOfFiles, setAmountOfFiles] = React.useState(false);
 
 
     function handleClickOpenPopper() {
@@ -54,9 +57,11 @@ export default function DialogPhoto(props) {
             walls
         }
 
-        setStored(true);
+        if (amountOfFiles > 0)
+            setStored(true);
 
-        //storageData(data);
+        sendStatePhoto(stored, id);
+        checkStateForColor(id);
         handleClosePopper();
     }
 
@@ -80,6 +85,9 @@ export default function DialogPhoto(props) {
         }
     }
 
+    const getFiles = (files) => {
+        Array.isArray(files) ? setAmountOfFiles(files.length) : setStored(false);
+    }
 
     const onClickAdd = () => {
         //DO SOMTHING
@@ -123,7 +131,7 @@ export default function DialogPhoto(props) {
                 <DialogTitle id="form-dialog-title"></DialogTitle>
                 <DialogContent>
 
-                    <Basic />
+                    <Basic getFiles={getFiles} />
 
 
 
@@ -148,6 +156,7 @@ export default function DialogPhoto(props) {
 
 
 function Basic(props) {
+    const { getFiles } = props;
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
     const files = acceptedFiles.map(file => (
@@ -167,7 +176,7 @@ function Basic(props) {
 
             />
 
-            <span style={{fontSize:10}} >{file.path} <br></br> <span style={{color:"#999"}}> {file.size} bytes</span></span>
+            <span style={{ fontSize: 10 }} >{file.path} <br></br> <span style={{ color: "#999" }}> {file.size} bytes</span></span>
 
         </div >
     ));
@@ -180,6 +189,7 @@ function Basic(props) {
                 <strong style={{ fontSize: 18 }}>Drag and Drop files <br></br></strong> <Grid item style={{ marginLeft: 60, fontSize: 20 }}>or</Grid><br></br>
                 <UploadButtons />
             </Grid>
+            {getFiles(files)}
 
 
             <ul>{files}</ul>

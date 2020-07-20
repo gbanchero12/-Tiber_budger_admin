@@ -17,7 +17,6 @@ import DialogNoteRooms from './Dialogs/DialogNoteRooms';
 import DialogAddRoom from './Dialogs/DialogAddRoom';
 
 
-
 // Generate Order Data
 function createData(id, icon, firstColumn, l, w, h, lxH, icons) {
   return { id, icon, firstColumn, l, w, h, lxH, icons };
@@ -42,20 +41,23 @@ function inline(text) {
   );
 }
 
-function displayIcons() {
+
+const icons = (id) => {
   return (
 
     <div>
       <Grid container justify="flex-end" style={{ width: 60, marginLeft: 17 }} alignItems="flex-end">
 
-        <Grid item xs={4} ><DialogNoteRooms /></Grid>
-        <Grid item xs={4}><DialogPhoto /></Grid>
-        <Grid item xs={4}><DialogRoomsBubble /></Grid>
+        <Grid item xs={4} ><DialogNoteRooms  /></Grid>
+        <Grid item xs={4}><DialogPhoto  /></Grid>
+        <Grid item xs={4}><DialogRoomsBubble  /></Grid>
 
       </Grid>
     </div>
   );
 }
+
+
 
 
 
@@ -73,39 +75,107 @@ const styles = theme => ({
 
 class Rooms extends React.Component {
 
+
+
+
   constructor(props) {
     super(props);
     this.state = {
-
       rows: [
         createData(0, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
-          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Living Room</span>, inline("12"), inline("14"), inline("7"), inline("168"), displayIcons()),
+          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Living Room</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(0)),
         createData(1, <RadioButtonCheckedTwoToneIcon style={{ fill: "#f5b201", marginRight: -30 }} fontSize="small" />,
-          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Kitchen</span>, inline("12"), inline("14"), inline("7"), inline("168"), displayIcons()),
+          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Kitchen</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(1)),
         createData(2, <FiberManualRecordIcon style={{ fill: "#129e00", marginRight: -30 }} fontSize="small" />,
-          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 1</span>, inline("12"), inline("14"), inline("7"), inline("168"), displayIcons()),
+          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 1</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(2)),
         createData(3, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
-          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 2</span>, inline(" - "), inline(" - "), inline(" - "), inline(" - "), displayIcons()),
+          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 2</span>, inline(" - "), inline(" - "), inline(" - "), inline(" - "), icons(3)),
       ],
+      inicialState: true,
+      iconColor: ["red"]
     };
 
-   
+
 
 
   }
 
+
+
+
   render() {
     const { classes } = this.props;
 
-    const fillRows = (event) => {
-      let newRow = createData(0, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
-      <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Living Room</span>, inline("12"), inline("14"), inline("7"), inline("168"), displayIcons());
-      let rows_ = this.state.rows;
-      rows_.push(newRow);
-      this.setState({rows: rows_});
-      console.log("//state",this.state)
+    const sendStateNote = (state, id) => {
+      let iconColorStored = this.state.iconColor;
+      console.log(id);
+      //this.state.rows[0].icon.props.style.fill = "yellow";
     }
 
+    const sendStatePhoto = (state, id) => {
+      let iconColorStored = this.state.iconColor;
+      if (iconColorStored[id - 1] === undefined || iconColorStored[id - 1].color === "red") {
+        iconColorStored[id - 1] = "yellow";
+        this.setState({ iconColor: iconColorStored })
+      }
+      console.log(this.state)
+    }
+
+    const sendStateBubble = (state, id) => {
+      let iconColorStored = this.state.iconColor;
+      if (iconColorStored[id - 1] === undefined || iconColorStored[id - 1].color === "red") {
+        iconColorStored[id - 1] = "yellow";
+        this.setState({ iconColor: iconColorStored })
+      }
+      console.log(this.state)
+    }
+
+    const checkStateForColor = (id = 0, sendStateBubble, sendStatePhoto, sendStateNote) => {
+
+    }
+
+    const icons = (id) => {
+      return (
+
+        <div>
+          <Grid container justify="flex-end" style={{ width: 60, marginLeft: 17 }} alignItems="flex-end">
+
+            <Grid item xs={4} ><DialogNoteRooms sendStateNote={sendStateNote} id={id} checkStateForColor={checkStateForColor} /></Grid>
+            <Grid item xs={4}><DialogPhoto sendStatePhoto={sendStatePhoto} id={id} checkStateForColor={checkStateForColor} /></Grid>
+            <Grid item xs={4}><DialogRoomsBubble sendStateBubble={sendStateBubble} id={id} checkStateForColor={checkStateForColor} /></Grid>
+
+          </Grid>
+        </div>
+      );
+    }
+
+    const displayIcons = (id) => {
+      let newArrayOfRows = new Array();
+      let rows_ = this.state.rows;
+      rows_.forEach(row => {
+        if (row.icons !== '')
+          row.icons = icons(id);
+        newArrayOfRows.push(row);
+      });
+      this.setState({ rows: newArrayOfRows })
+    }
+
+
+    const fillRows = (data, id) => {
+      console.log(id)
+      let newRow = createData(id, <RadioButtonCheckedTwoToneIcon className={data.place} style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
+        <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >{data.place}</span>, inline("-"), inline("-"), inline("-"), inline("-"), displayIcons(id));
+      let rows_ = this.state.rows;
+      rows_.push(newRow);
+      this.setState({ rows: rows_ });
+    }
+
+    if (this.state.inicialState) {
+      {
+        displayIcons();
+        this.setState({ inicialState: false })
+      }
+    }
     return (
       <React.Fragment>
 
@@ -113,7 +183,6 @@ class Rooms extends React.Component {
         <Title>Rooms <EditOutlinedIcon /><BlurOnIcon /></Title>
         <div style={{ marginLeft: -25, marginRight: 80 }}> <Table size="small">
           <TableHead>
-
 
             <TableRow>
 
@@ -145,7 +214,7 @@ class Rooms extends React.Component {
         </Table>
 
         </div>
-        <DialogAddRoom fillRows={fillRows}/>
+        <DialogAddRoom fillRows={fillRows} id={this.state.rows.length} displayIcons={displayIcons} />
 
 
 

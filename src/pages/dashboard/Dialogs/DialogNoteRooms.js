@@ -16,7 +16,10 @@ export default function DialogNoteRooms(props) {
 
     const {
         classes,
-        storageData
+        storageData,
+        sendStateNote,
+        checkStateForColor,
+        id
     } = props;
 
     const [fullWidth] = React.useState(true);
@@ -28,6 +31,7 @@ export default function DialogNoteRooms(props) {
     const [walls, setState] = React.useState('');
 
     const [stored, setStored] = React.useState(false);
+    const [note, setNote] = React.useState('');
 
 
 
@@ -46,10 +50,10 @@ export default function DialogNoteRooms(props) {
             floors,
             walls
         }
+        if (note !== '')
+            setStored(true);
 
-        setStored(true);
-
-        //storageData(data);
+            sendStateNote(stored, id);
         handleClosePopper();
     }
 
@@ -57,20 +61,9 @@ export default function DialogNoteRooms(props) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        switch (name) {
-            case "window":
-                setAddress(value)
-                break;
-            case "floors":
-                setCity(value)
-                break;
-            case "walls":
-                setState(value)
-                break;
 
-            default:
-                break;
-        }
+        setNote(value);
+
     }
 
 
@@ -131,6 +124,7 @@ export default function DialogNoteRooms(props) {
                                 }}
                                 multiline
                                 rows={4}
+                                value={note}
                             />
                         </Grid>
 

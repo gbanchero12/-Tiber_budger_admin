@@ -37,7 +37,7 @@ export default function Images() {
     <Grid container justify="center" spacing={1} alignItems="flex-end"><Grid item>Current Proyect Owner</Grid><AccountCircleIcon style={{fill: "#049ce4"}} fontSize="large"/></Grid>
     <Grid container alignItems="center" justify="space-around" >
 
-      <ArrowBackIosIcon />
+    <Link style={{color:"black"}} href="#"><ArrowBackIosIcon /></Link>
       
       
 
@@ -45,7 +45,7 @@ export default function Images() {
    
       {showHouse()}
      
-    <ArrowForwardIosIcon />
+    <Link style={{color:"black"}}  href="#"><ArrowForwardIosIcon /></Link>
     </Grid>
     </div>
   );

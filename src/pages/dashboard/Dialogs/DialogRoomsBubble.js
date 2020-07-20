@@ -14,7 +14,10 @@ export default function DialogMenu(props) {
 
     const {
         classes,
-        storageData
+        storageData,
+        sendStateBubble,
+        checkStateForColor,
+        id
     } = props;
 
     const [fullWidth] = React.useState(true);
@@ -25,7 +28,7 @@ export default function DialogMenu(props) {
     const [floors, setCity] = React.useState('');
     const [walls, setState] = React.useState('');
 
-    const [stored, setStored] = React.useState(false);
+    const [stored, setStored] = React.useState("redState");
 
 
 
@@ -45,9 +48,16 @@ export default function DialogMenu(props) {
             walls
         }
 
-        setStored(true);
+        if (floors !== '' && walls !== '' && window !== '') {
+            setStored("greenState");
+            sendStateBubble(true, id)
+        }
+        else
+            if (floors !== '' || walls !== '' || window !== '') {
+                setStored("yellowState");
+                sendStateBubble(false, id);
+            }
 
-        //storageData(data);
         handleClosePopper();
     }
 
@@ -89,21 +99,24 @@ export default function DialogMenu(props) {
     return (
         <span>
 
-            {stored ?
+            {stored === "yellowState" ?
+                <AssignmentIcon style={{ marginLeft: "-40px", display: "block", color: "#f9b200" }} fontSize="small" onClick={handleClickOpenPopper} /> : <div></div>}
+            {stored === "greenState" ?
                 <div>
                     <Link href="#" >
 
                         <AssignmentIcon style={{ marginLeft: "-40px", display: "block", color: "#049ce4" }} fontSize="small" onClick={handleClickOpenPopper} />
                     </Link>
                 </div>
-                :
+                : <div></div>}
+            {stored === "redState" ?
                 <div>
                     <Link href="#" >
 
                         <AssignmentIcon style={{ marginLeft: "-40px", display: "block", color: "#000000" }} fontSize="small" onClick={handleClickOpenPopper} fontSize="small" />
 
                     </Link>
-                </div>}
+                </div> : <div></div>}
 
             <Dialog
                 fullWidth={fullWidth}
@@ -118,14 +131,15 @@ export default function DialogMenu(props) {
                         <Grid item xs={4}>
                             <TextField
                                 id="window"
-                                label="Window Condition"
-                                margin="dense"
+                                label="Window State"
+                                size="small"
                                 variant="outlined"
                                 name="window"
                                 onChange={handleChange}
                                 InputProps={{
                                     readOnly: false
                                 }}
+                                value={window}
                             />
                         </Grid>
 
@@ -133,13 +147,14 @@ export default function DialogMenu(props) {
                             <TextField
                                 id="floors"
                                 label="Floors"
-                                margin="dense"
+                                size="small"
                                 variant="outlined"
                                 name="floors"
                                 onChange={handleChange}
                                 InputProps={{
                                     readOnly: false
                                 }}
+                                value={floors}
                             />
                         </Grid>
 
@@ -147,13 +162,14 @@ export default function DialogMenu(props) {
                             <TextField
                                 id="walls"
                                 label="Walls"
-                                margin="dense"
+                                size="small"
                                 variant="outlined"
                                 name="walls"
                                 onChange={handleChange}
                                 InputProps={{
                                     readOnly: false
                                 }}
+                                value={walls}
                             />
                         </Grid>
                     </Grid>

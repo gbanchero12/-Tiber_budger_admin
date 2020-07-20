@@ -16,7 +16,9 @@ export default function DialogAddRoom(props) {
     const {
         classes,
         storageData,
-        fillRows
+        fillRows,
+        displayIcons,
+        id
     } = props;
 
     const [fullWidth] = React.useState(true);
@@ -40,13 +42,13 @@ export default function DialogAddRoom(props) {
     function onClickEdit() {
 
         let data = {
-            place
+            place,
+            id
         }
-        console.log(data);
-        fillRows();
+        fillRows(data, id);
         setStored(true);
 
-        //storageData(data);
+        displayIcons();
         handleClosePopper();
     }
 
