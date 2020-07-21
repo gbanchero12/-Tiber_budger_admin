@@ -26,7 +26,8 @@ export default function DialogPhoto(props) {
         storageData,
         sendStatePhoto,
         checkStateForColor,
-        id
+        id, 
+        isMosaico
     } = props;
 
     const [fullWidth] = React.useState(true);

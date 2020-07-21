@@ -62,8 +62,8 @@ export default function ToggleButtonSizes() {
                         <ToggleButton value="Garage">
                             Garage
                         </ToggleButton>
-                        <ToggleButton value="Utillity">
-                            Utillity
+                        <ToggleButton value="Utility">
+                            Utility
                         </ToggleButton>
                     </ToggleButtonGroup>
                 </Grid>

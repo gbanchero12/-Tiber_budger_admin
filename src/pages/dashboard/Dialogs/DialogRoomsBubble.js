@@ -17,7 +17,8 @@ export default function DialogMenu(props) {
         storageData,
         sendStateBubble,
         checkStateForColor,
-        id
+        id,
+        isMosaico
     } = props;
 
     const [fullWidth] = React.useState(true);
@@ -99,7 +100,7 @@ export default function DialogMenu(props) {
     return (
         <span>
 
-            {stored === "yellowState" ?
+            {(stored === "yellowState" && !isMosaico )?
                 <AssignmentIcon style={{ marginLeft: "-40px", display: "block", color: "#f9b200" }} fontSize="small" onClick={handleClickOpenPopper} /> : <div></div>}
             {stored === "greenState" ?
                 <div>

@@ -19,7 +19,8 @@ export default function DialogNoteRooms(props) {
         storageData,
         sendStateNote,
         checkStateForColor,
-        id
+        id,
+        isMosaico,
     } = props;
 
     const [fullWidth] = React.useState(true);

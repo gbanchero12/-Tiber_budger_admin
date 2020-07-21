@@ -15,6 +15,7 @@ import DialogRoomsBubble from './Dialogs/DialogRoomsBubble';
 import DialogPhoto from './Dialogs/DialogPhoto';
 import DialogNoteRooms from './Dialogs/DialogNoteRooms';
 import DialogAddRoom from './Dialogs/DialogAddRoom';
+import MosaicoView from '../MosaicoView';
 
 
 // Generate Order Data
@@ -48,9 +49,9 @@ const icons = (id) => {
     <div>
       <Grid container justify="flex-end" style={{ width: 60, marginLeft: 17 }} alignItems="flex-end">
 
-      <Grid item xs={4} ><DialogNoteRooms  /></Grid>
-            <Grid item xs={4}><DialogPhoto  /></Grid>
-            <Grid item xs={4}><DialogRoomsBubble   /></Grid>
+        <Grid item xs={4} ><DialogNoteRooms /></Grid>
+        <Grid item xs={4}><DialogPhoto /></Grid>
+        <Grid item xs={4}><DialogRoomsBubble /></Grid>
 
       </Grid>
     </div>
@@ -82,17 +83,19 @@ class Rooms extends React.Component {
     super(props);
     this.state = {
       rows: [
-       /* createData(0, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
-          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Living Room</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(0)),
-        createData(1, <RadioButtonCheckedTwoToneIcon style={{ fill: "#f5b201", marginRight: -30 }} fontSize="small" />,
-          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Kitchen</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(1)),
-        createData(2, <FiberManualRecordIcon style={{ fill: "#129e00", marginRight: -30 }} fontSize="small" />,
-          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 1</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(2)),
-        createData(3, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
-          <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 2</span>, inline(" - "), inline(" - "), inline(" - "), inline(" - "), icons(3)),*/
+        /* createData(0, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
+           <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Living Room</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(0)),
+         createData(1, <RadioButtonCheckedTwoToneIcon style={{ fill: "#f5b201", marginRight: -30 }} fontSize="small" />,
+           <span style={{ fontSize: 11, display: "inline-block", width: "60px" }} >Kitchen</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(1)),
+         createData(2, <FiberManualRecordIcon style={{ fill: "#129e00", marginRight: -30 }} fontSize="small" />,
+           <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 1</span>, inline("12"), inline("14"), inline("7"), inline("168"), icons(2)),
+         createData(3, <RadioButtonCheckedTwoToneIcon style={{ fill: "#c00000", marginRight: -30 }} fontSize="small" />,
+           <span style={{ fontSize: 11, display: "inline-block", width: "60px" }}>Bedroom 2</span>, inline(" - "), inline(" - "), inline(" - "), inline(" - "), icons(3)),*/
       ],
       inicialState: true,
-      pointerState: [/*{ note: false, photo: false, bubble: false }, { note: false, photo: false, bubble: false }, { note: false, photo: false, bubble: false }, { note: false, photo: false, bubble: false }*/]
+      pointerState: [],
+      mosaicoView: true,
+
     };
 
 
@@ -223,54 +226,67 @@ class Rooms extends React.Component {
 
     }
 
+    const changeToMosaico = () => {
+      this.setState({mosaicoView: true})
+    }
+
+    const changeFromMosaico = () => {
+      this.setState({mosaicoView: false})
+    }
+
     if (this.state.inicialState) {
       {
         this.setState({ inicialState: false })
       }
     }
     return (
+
       <React.Fragment>
 
+        {this.state.mosaicoView ? <MosaicoView rows={this.state.rows} changeToMosaico={changeToMosaico} changeFromMosaico={changeFromMosaico} displayIcons={displayIcons} fillRows={fillRows} /> :
+          <div>
 
-        <Title>Rooms <EditOutlinedIcon /><BlurOnIcon /></Title>
-        <div style={{ marginLeft: -25, marginRight: 80 }}> <Table size="small">
-          <TableHead>
+<Title>Rooms <Link onClick={changeFromMosaico}><EditOutlinedIcon /></Link> <Link onClick={changeToMosaico}><BlurOnIcon /></Link></Title>
+            <div style={{ marginLeft: -25, marginRight: 80 }}> <Table size="small">
+              <TableHead>
 
-            <TableRow>
+                <TableRow>
 
-              <TableCell className={classes.root}> </TableCell>
-              <TableCell className={classes.root}> </TableCell>
-              <TableCell className={classes.root} align="right"><span style={{ marginRight: 12, fontSize: 13 }}>L</span></TableCell>
-              <TableCell className={classes.root} align="right"><span style={{ marginRight: 12, fontSize: 13 }}>W</span></TableCell>
-              <TableCell className={classes.root} align="right" ><span style={{ marginRight: 12, fontSize: 13 }}>H</span></TableCell>
-              <TableCell className={classes.root} align="right"><span style={{ fontSize: 13 }}>L x W</span></TableCell>
-              <TableCell className={classes.root} align="right"></TableCell>
+                  <TableCell className={classes.root}> </TableCell>
+                  <TableCell className={classes.root}> </TableCell>
+                  <TableCell className={classes.root} align="right"><span style={{ marginRight: 12, fontSize: 13 }}>L</span></TableCell>
+                  <TableCell className={classes.root} align="right"><span style={{ marginRight: 12, fontSize: 13 }}>W</span></TableCell>
+                  <TableCell className={classes.root} align="right" ><span style={{ marginRight: 12, fontSize: 13 }}>H</span></TableCell>
+                  <TableCell className={classes.root} align="right"><span style={{ fontSize: 13 }}>L x W</span></TableCell>
+                  <TableCell className={classes.root} align="right"></TableCell>
 
-            </TableRow>
+                </TableRow>
 
-          </TableHead>
-          <TableBody>
-            {this.state.rows.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell align="right" className={classes.tableCell}>{row.icon}</TableCell>
-                <TableCell className={classes.root}>{row.firstColumn}</TableCell>
-                <TableCell align="right" className={classes.tableCell}>{row.l}</TableCell>
-                <TableCell align="right" className={classes.tableCell}>{row.w}</TableCell>
-                <TableCell align="right" className={classes.tableCell}>{row.h}</TableCell>
-                <TableCell align="right" className={classes.tableCell}>{row.lxH}</TableCell>
-                <TableCell align="right" className={classes.tableCell}>{row.icons}</TableCell>
-              </TableRow>
-            ))}
+              </TableHead>
+              <TableBody>
+                {this.state.rows.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell align="right" className={classes.tableCell}>{row.icon}</TableCell>
+                    <TableCell className={classes.root}>{row.firstColumn}</TableCell>
+                    <TableCell align="right" className={classes.tableCell}>{row.l}</TableCell>
+                    <TableCell align="right" className={classes.tableCell}>{row.w}</TableCell>
+                    <TableCell align="right" className={classes.tableCell}>{row.h}</TableCell>
+                    <TableCell align="right" className={classes.tableCell}>{row.lxH}</TableCell>
+                    <TableCell align="right" className={classes.tableCell}>{row.icons}</TableCell>
+                  </TableRow>
+                ))}
 
-          </TableBody>
-        </Table>
-
-        </div>
-        <DialogAddRoom fillRows={fillRows} id={this.state.rows.length} displayIcons={displayIcons} />
-
+              </TableBody>
+            </Table>
 
 
 
+            </div>
+            <DialogAddRoom fillRows={fillRows} id={this.state.rows.length} displayIcons={displayIcons} />
+
+
+
+          </div>}
       </React.Fragment >
     );
   };

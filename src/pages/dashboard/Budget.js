@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -7,18 +7,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
-import { InputBase, Button, Box, Typography, TextField, FormControlLabel, Switch } from '@material-ui/core';
+import { InputBase, Button, Box, Typography, TextField, FormControlLabel, Switch, withStyles } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import AddIcon from '@material-ui/icons/Add';
+
 import TableActions from './TableActions'
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const TypesArrange = [{ value: 1, label: 'Recently Added' }, { value: 1, label: 'Price' }]
-
-
+import DialogAddAction from './Dialogs/DialogAddAction';
+import Actions from './Actions';
 
 const rows = [
   createData(0, 'Budget Amount', "$54,600.51", "$-"),
@@ -27,9 +21,11 @@ const rows = [
   createData(3, 'Vendor(s)', "$30,215.48", "$-"),
 ];
 
+function createData(id, date, name, shipTo, paymentMethod, amount) {
+  return { id, date, name, shipTo, paymentMethod, amount };
+}
 
-
-const useStyles = makeStyles((theme) => ({
+const styles = theme => ({
   root: {
     borderBottom: "none",
   },
@@ -56,10 +52,20 @@ const useStyles = makeStyles((theme) => ({
   switch: {
     marginTop: theme.spacing(2)
   }
-}));
+});
 
-export default function Budget() {
-  const classes = useStyles();
+
+class Budget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      rows: []
+    }
+    
+  }
+
+render(){
+  const { classes } = this.props;
   return (
     <div>
       <React.Fragment>
@@ -89,87 +95,12 @@ export default function Budget() {
       </React.Fragment>
       <Actions />
     </div>
-  );
+  );};
 }
 
-function Actions() {
-  const classes = useStyles();
 
-  function preventDefault(event) {
-    console.log("EDIT")
-    event.preventDefault();
-  }
-
-
-  return (
-    <React.Fragment>
+export default withStyles(styles)(Budget);
 
 
 
-      <Table size="small" className={classes.tableAction}>
-        <TableHead >
-          <TableRow  >
-            <TableCell > <Title>Actions</Title></TableCell>
-            <TableCell > <Title></Title></TableCell>
 
-
-          </TableRow>
-          <TableRow  >
-            <TableCell align="left"><Button className={classes.btnAdd}><AddIcon className={classes.addIcon} /></Button><Link color="primary" href="#" onClick={preventDefault}>Add Action</Link></TableCell>
-            <TableCell align="right">
-              <InputBase
-                className={classes.margin}
-                inputProps={{ 'aria-label': 'naked' }}
-                placeholder="Search..."
-              />
-              <Button onClick={preventDefault}>
-                <SearchIcon fontSize="small" className={classes.searchIcon} />
-              </Button>
-            </TableCell>
-          </TableRow>
-
-          <TableRow  >
-            <TableCell align="left">2 actions</TableCell>
-            <TableCell align="right">
-
-              <TextField
-                id="arrange"
-                margin="dense"
-                variant="outlined"
-                //value={this.state.servicio}
-                //onChange={onChange}
-                placeholder="Arrange By:"
-                name="arrange"
-                select
-                SelectProps={{
-                  native: true,
-                }}
-              //onChange={this.handleChange}
-              >
-                <option key="-1" value="-1">Arrange By:</option>
-                {TypesArrange.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option >
-                ))}
-
-              </TextField>
-
-              <FormControlLabel
-                className={classes.switch}
-                value="Ascending"
-                control={<Switch size="small" color="primary" />}
-                label="Ascending"
-                labelPlacement="start"
-              />
-            </TableCell>
-
-          </TableRow>
-
-        </TableHead>
-      </Table>
-      <TableActions />
-
-    </React.Fragment>
-  );
-}

@@ -11,24 +11,28 @@ import { Grid, withStyles, Link } from '@material-ui/core';
 import HandleChange from '../../../Functions/Functions';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ToggleButtonSizes from '../Components/ToggleButtons';
+import AddIcon from '@material-ui/icons/Add';
+import ToggleButtonActionDetails from '../Components/ToggleButtonsActionDetails';
+
+
 export default function DialogAddRoom(props) {
 
     const {
         classes,
-        storageData,
-        fillRows,
-        displayIcons,
         id,
-        isMosaicoView
+        addAction
     } = props;
 
     const [fullWidth] = React.useState(true);
     const [maxWidth] = React.useState('xs');
     const [open, setOpen] = React.useState(false);
 
-    const [place, setPlaceName] = React.useState('');
+    const [amount, setAmount] = React.useState(0);
+    const [scope, setScope] = React.useState('');
 
-    const [stored, setStored] = React.useState(false);
+    const [roomType, setRoomType] = React.useState("");
+
+    const [actionDetails, setActionDetails] = React.useState("");
 
 
 
@@ -40,23 +44,37 @@ export default function DialogAddRoom(props) {
         setOpen(false);
     };
 
+    function getDataFromToggle(roomType = '', actionDetails = '') {
+        if (roomType !== '' && roomType !== undefined)
+            setRoomType(roomType);
+        if (actionDetails !== '' && actionDetails !== undefined)
+            setActionDetails(actionDetails);
+    }
+
     function onClickEdit() {
 
-        let data = {
-            place,
-            id
+        let data_ = {
+            amount: amount,
+            id: '',
+            roomType: roomType,
+            actionDetails: actionDetails,
+            scope: scope,
         }
-        fillRows(data, id);
-        setStored(true);
+        addAction(data_);
 
-        displayIcons(data.id, isMosaicoView);
         handleClosePopper();
     }
 
     function handleChange(event) {
         const target = event.target;
         const value = target.value;
-        setPlaceName(value);
+        setAmount(value);
+    }
+
+    function handleChangeScope(event) {
+        const target = event.target;
+        const value = target.value;
+        setScope(value);
     }
 
 
@@ -77,7 +95,7 @@ export default function DialogAddRoom(props) {
     return (
         <span>
 
-            {!isMosaicoView ? <Link color="primary" href="#" onClick={handleClickOpenPopper}>+ Add room</Link> : null}
+            <Button onClick={handleClickOpenPopper} className={classes.btnAdd}><AddIcon className={classes.addIcon} /></Button><Link color="primary" href="#" onClick={handleClickOpenPopper}>Add Action</Link>
 
             <Dialog
                 fullWidth={fullWidth}
@@ -88,15 +106,20 @@ export default function DialogAddRoom(props) {
                 aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title"></DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2} justify="flex-end" alignItems="flex-end">
-                        <Grid item xs={12}>
-                        <p>Select Room Type</p> 
-                            <ToggleButtonSizes /></Grid>
-                        <Grid item xs={12}> 
-                        <p>Enter Room Name</p>
-                        <TextField variant="filled" fullWidth label="Enter Room Name" id="place" name="place" type="text" onChange={handleChange}> </TextField></Grid>
-                    </Grid>
+                    <Grid container spacing={2} justify="center" alignItems="center">
 
+                        <p>SELECT ACTION DETAILS</p>
+                        <ToggleButtonActionDetails getDataFromToggle={getDataFromToggle} />
+
+                        <p>ESTIMATE COSTS</p>
+                        <TextField variant="filled" placeholder="$" defaultValue="$" fullWidth label="Amount" id="amount" name="amount" type="number" onChange={handleChange}> </TextField>
+
+
+                        <p>SCOPE / NOTES</p>
+                        <TextField variant="filled" multiline size="large" rows={3} fullWidth label="Scope / Notes" id="scope" name="scope" type="text" onChange={handleChangeScope}> </TextField>
+
+
+                    </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClosePopper} color="primary">
@@ -107,7 +130,7 @@ export default function DialogAddRoom(props) {
                     </Button>)}
                 </DialogActions>
             </Dialog>
-        </span>
+        </span >
     );
 
 }
